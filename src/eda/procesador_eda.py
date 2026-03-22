@@ -21,7 +21,37 @@ class ProcesadorEda:
 
         #Convertir genre_ids de texto a lista
         self.df["genre_ids"]=self.df["genre_ids"].apply(ast.literal_eval)
+        # Convertir genre_ids de texto a lista
+        self.df["genre_ids"] = self.df["genre_ids"].apply(ast.literal_eval)
 
+        # Diccionario de géneros
+        generos = {
+            28: "Acción",
+            12: "Aventura",
+            16: "Animación",
+            35: "Comedia",
+            80: "Crimen",
+            99: "Documental",
+            18: "Drama",
+            10751: "Familia",
+            14: "Fantasía",
+            36: "Historia",
+            27: "Terror",
+            10402: "Música",
+            9648: "Misterio",
+            10749: "Romance",
+            878: "Ciencia ficción",
+            10770: "Película de TV",
+            53: "Thriller",
+            10752: "Bélica",
+            37: "Western"
+        }
+
+        # Reemplazar códigos por nombres
+        self.df["genre_ids"] = self.df["genre_ids"].apply(
+            lambda x: [generos[g] for g in x if g in generos]
+        )
+        
         #Rellenar nulos en overview
         self.df["overview"] = self.df["overview"].fillna("Sin descripcion")
 
