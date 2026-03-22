@@ -1,17 +1,17 @@
 
 import pandas as pd
-import ast # convierte la columna de generos
+import ast
 import os
 
 class ProcesadorEda:
     def __init__(self,df):
         self.df = df.copy()  # copia del DF para no modificar el original
 
-#Limpieza de datos
+    #Limpieza de datos
 
     def limpieza_datos(self):
         #Eliminar colummnas que no sirven
-        self.df.drop(columns=["Unnamed: 0", "adult", "backdrop_path", "poster_path", "video"], inplace=True)
+        self.df.drop(columns=["adult", "backdrop_path", "poster_path", "video"], inplace=True)
 
         #Convertir column release date a formato fecha
         self.df["release_date"] = pd.to_datetime(self.df["release_date"],errors="coerce")
@@ -19,8 +19,6 @@ class ProcesadorEda:
         #Extraer el año de la fecha
         self.df["anio_estreno"]= self.df["release_date"].dt.year
 
-        #Convertir genre_ids de texto a lista
-        self.df["genre_ids"]=self.df["genre_ids"].apply(ast.literal_eval)
         # Convertir genre_ids de texto a lista
         self.df["genre_ids"] = self.df["genre_ids"].apply(ast.literal_eval)
 
@@ -57,10 +55,9 @@ class ProcesadorEda:
 
         print("Limpieza de datos completada")
         print("Columnas actuales"),list(self.df.columns)
-
         return self.df
 
-# Resumen descriptivo
+    # Resumen descriptivo
 
     def resumen_descriptivo(self):
         columnas = ["popularity","vote_average","vote_count"]  # variables numericas de interes
@@ -69,7 +66,7 @@ class ProcesadorEda:
         print(resumen)
         return resumen
 
-# metodo  matriz de correlación.
+    # metodo  matriz de correlación.
 
     def matriz_correlacion(self):
         columnas = ["popularity","vote_average","vote_count"]
@@ -78,7 +75,7 @@ class ProcesadorEda:
         print(correlacion)
         return correlacion
 
-# Metodo peliculas por año
+    # Metodo peliculas por año
 
     def peliculas_por_anio(self):
         resumen = self.df.groupby("anio_estreno")["id"].count()  # agrupar las peliculas por anios y contarlas
