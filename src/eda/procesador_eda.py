@@ -71,8 +71,9 @@ class ProcesadorEda:
 # metodo  matriz de correlación.
 
     def matriz_correlacion(self):
-        columnas = ["popularity","vote_average","vote_count"]
-        correlacion = self.df[columnas].corr()
+        columnas = ["popularity", "vote_average", "vote_count", "anio_estreno"]
+        datos = self.df[self.df["vote_count"] > 0][columnas]
+        correlacion = datos.corr()
         print("Matriz de correlacion:")
         print(correlacion)
         return correlacion
@@ -84,6 +85,32 @@ class ProcesadorEda:
         print("Peliculas por año:")
         print(resumen)
         return resumen
+
+    def top_peliculas_populares(self):
+        top = self.df[["title", "popularity"]].sort_values("popularity", ascending=False).head(10)
+        print("Top 10 películas más populares:")
+        print(top)
+        return top
+
+
+
+    def top_peliculas_calificadas(self):
+        top = self.df[self.df["vote_count"] >= 50][["title", "vote_average", "vote_count"]].sort_values("vote_average",ascending=False).head(10)
+        print("Top 10 películas mejor calificadas:")
+        print(top)
+        return top
+
+    def generos_mas_comunes(self):
+        generos = self.df["genre_ids"].explode().value_counts().head(10)
+        print("Top 10 géneros más comunes:")
+        print(generos)
+        return generos
+
+    def idiomas_mas_comunes(self):
+        idiomas = self.df["original_language"].value_counts().head(10)
+        print("Top 10 idiomas más comunes:")
+        print(idiomas)
+        return idiomas
 
 if __name__=="__main__":
     from cargador_datos import CargadorDatos
@@ -97,3 +124,7 @@ if __name__=="__main__":
     procesador.resumen_descriptivo()
     procesador.matriz_correlacion()
     procesador.peliculas_por_anio()
+    procesador.top_peliculas_populares()
+    procesador.top_peliculas_calificadas()
+    procesador.generos_mas_comunes()
+    procesador.idiomas_mas_comunes()
