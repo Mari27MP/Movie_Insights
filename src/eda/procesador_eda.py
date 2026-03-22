@@ -51,13 +51,21 @@ class ProcesadorEda:
             lambda x: [generos[g] for g in x if g in generos]
         )
 
-        #Rellenar nulos en overview
+        # Rellenar nulos en overview
         self.df["overview"] = self.df["overview"].fillna("Sin descripcion")
 
         print("Limpieza de datos completada")
         print("Columnas actuales:", list(self.df.columns))
 
+        # Guardar dataset limpio
+        ruta_procesado = "../../data/processed/tmdb_movies_clean.csv"
+        os.makedirs(os.path.dirname(ruta_procesado), exist_ok=True)
+        self.df.to_csv(ruta_procesado, index=False)
+        print(f"Dataset limpio guardado en {ruta_procesado}")
+
         return self.df
+
+
 
 # Resumen descriptivo
 
