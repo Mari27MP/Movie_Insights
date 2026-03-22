@@ -11,7 +11,7 @@ class ProcesadorEda:
 
     def limpieza_datos(self):
         #Eliminar colummnas que no sirven
-        self.df.drop(columns=["Unnamed: 0", "adult", "backdrop_path", "poster_path", "video"], inplace=True)
+        self.df.drop(columns=["adult", "backdrop_path", "poster_path", "video"], inplace=True)
 
         #Convertir column release date a formato fecha
         self.df["release_date"] = pd.to_datetime(self.df["release_date"],errors="coerce")
