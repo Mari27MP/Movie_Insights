@@ -21,9 +21,10 @@ class CargadorDatos:
         self.num_filas = len(self.df)  # cuente cuanta filas tiene
         print("Filas cargadas", self.num_filas)
 
-        nulos = self.df.isnull().sum()  # cuente cuantos nulos hay en cada columna
+        nulos = self.df.isnull().sum()
+        porcentaje_nulos = (self.df.isnull().mean() * 100).round(2)
         print("Valores nulos por columna:")
-        print(nulos)
+        print(pd.DataFrame({"cantidad": nulos, "porcentaje %": porcentaje_nulos}))
 
         return self.df
 
