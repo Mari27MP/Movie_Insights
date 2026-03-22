@@ -74,6 +74,46 @@ class Visualizador:
         plt.gcf().set_facecolor("white")
         plt.show()
 
+    def barras_top_peliculas_populares(self):
+        top = self.df[["title", "popularity"]].sort_values("popularity", ascending=False).head(10)
+
+        plt.figure(figsize=(10, 6))
+        plt.barh(top["title"], top["popularity"], color="steelblue", edgecolor="black")
+        plt.title("¿Cuáles son las películas más populares?\n Top 10 TMDB 2020-2025")
+        plt.xlabel("Popularidad")
+        plt.gca().invert_yaxis()
+        plt.gca().set_facecolor("white")
+        plt.gcf().set_facecolor("white")
+        plt.tight_layout()
+        plt.show()
+
+    def barras_promedio_por_genero(self):
+        datos = self.df[self.df["vote_count"] >= 50].explode("genre_ids")
+        promedio = datos.groupby("genre_ids")["vote_average"].mean().sort_values(ascending=False).round(2)
+
+        plt.figure(figsize=(10, 6))
+        plt.barh(promedio.index, promedio.values, color="steelblue", edgecolor="black")
+        plt.title("¿Qué géneros tienen mejor calificación?\n Promedio por género TMDB 2020-2025")
+        plt.xlabel("Calificación promedio")
+        plt.gca().invert_yaxis()
+        plt.gca().set_facecolor("white")
+        plt.gcf().set_facecolor("white")
+        plt.tight_layout()
+        plt.show()
+
+    def barras_top_idiomas(self):
+        top = self.df["original_language"].value_counts().head(10)
+
+        plt.figure(figsize=(10, 6))
+        plt.barh(top.index, top.values, color="steelblue", edgecolor="black")
+        plt.title("¿En qué idiomas se producen más películas?\n Top 10 idiomas TMDB 2020-2025")
+        plt.xlabel("Número de películas")
+        plt.gca().invert_yaxis()
+        plt.gca().set_facecolor("white")
+        plt.gcf().set_facecolor("white")
+        plt.tight_layout()
+        plt.show()
+
 
 if __name__ == "__main__":
     import sys
