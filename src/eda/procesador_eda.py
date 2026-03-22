@@ -112,6 +112,23 @@ class ProcesadorEda:
         print(idiomas)
         return idiomas
 
+    def promedio_calificacion_por_genero(self):
+        datos = self.df[self.df["vote_count"] >= 50].explode("genre_ids")
+        promedio = datos.groupby("genre_ids")["vote_average"].mean().sort_values(ascending=False).round(2)
+        print("Promedio de calificación por género:")
+        print(promedio)
+        return promedio
+
+    def outliers_popularidad(self):
+        q1 = self.df["popularity"].quantile(0.25)
+        q3 = self.df["popularity"].quantile(0.75)
+        iqr = q3 - q1
+        limite = q3 + 1.5 * iqr
+        outliers = self.df[self.df["popularity"] > limite][["title", "popularity"]].sort_values("popularity",ascending=False)
+        print(f"Películas con popularidad anormalmente alta (>{limite:.2f}):")
+        print(outliers)
+        return outliers
+
 if __name__=="__main__":
     from cargador_datos import CargadorDatos
 
@@ -128,3 +145,5 @@ if __name__=="__main__":
     procesador.top_peliculas_calificadas()
     procesador.generos_mas_comunes()
     procesador.idiomas_mas_comunes()
+    procesador.promedio_calificacion_por_genero()
+    procesador.outliers_popularidad()
