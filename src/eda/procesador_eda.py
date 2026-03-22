@@ -21,8 +21,7 @@ class ProcesadorEda:
 
         #Convertir genre_ids de texto a lista
         self.df["genre_ids"]=self.df["genre_ids"].apply(ast.literal_eval)
-        # Convertir genre_ids de texto a lista
-        self.df["genre_ids"] = self.df["genre_ids"].apply(ast.literal_eval)
+
 
         # Diccionario de géneros
         generos = {
@@ -51,12 +50,12 @@ class ProcesadorEda:
         self.df["genre_ids"] = self.df["genre_ids"].apply(
             lambda x: [generos[g] for g in x if g in generos]
         )
-        
+
         #Rellenar nulos en overview
         self.df["overview"] = self.df["overview"].fillna("Sin descripcion")
 
         print("Limpieza de datos completada")
-        print("Columnas actuales"),list(self.df.columns)
+        print("Columnas actuales:", list(self.df.columns))
 
         return self.df
 
