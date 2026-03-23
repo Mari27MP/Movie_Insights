@@ -32,6 +32,12 @@ def main():
     procesador.resumen_descriptivo()
     procesador.matriz_correlacion()
     procesador.peliculas_por_anio()
+    procesador.top_peliculas_populares()
+    procesador.top_peliculas_calificadas()
+    procesador.generos_mas_comunes()
+    procesador.idiomas_mas_comunes()
+    procesador.promedio_calificacion_por_genero()
+    procesador.outliers_popularidad()
 
     # Visualizaciones
 
@@ -41,6 +47,9 @@ def main():
     viz.scatter_popularidad_rating()
     viz.heatmap_correlacion()
     viz.barras_top_generos()
+    viz.barras_top_peliculas_populares()
+    viz.barras_promedio_por_genero()
+    viz.barras_top_idiomas()
 
     print("=" * 50)
     print("Proceso Finalizado", Utilidades.timestamp())
