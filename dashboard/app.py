@@ -12,7 +12,10 @@ from eda.procesador_eda import ProcesadorEda
 from visualizacion.visualizador import Visualizador
 
 st.title("TMDB Movie Insights 2020-2025")
-st.write("Análisis exploratorio de películas usando datos de TMDB.")
+st.markdown("### Análisis Exploratorio de Datos del cine mundial 2020-2025")
+st.markdown("**Proyecto II** — BD-143 Programación II | I Cuatrimestre 2026 | CUC")
+st.markdown("**Estudiantes:** Mariana Pérez & Claret Rodríguez")
+st.divider()
 
 
 # Cargar datos
@@ -26,13 +29,30 @@ seccion = st.sidebar.radio("Ir a:", ["Inicio", "EDA", "Visualizaciones"])
 if seccion == "Inicio":
     st.header("Sobre el proyecto")
     st.write("""
-    Este dashboard presenta el análisis exploratorio del dataset TMDB 2020-2025,
-    que contiene información de 9,999 películas a nivel mundial.
+    Este dashboard presenta el análisis exploratorio del dataset **TMDB 2020-2025**,
+    una base de datos pública con información de **9,999 películas** producidas a nivel mundial
+    entre 2020 y 2025.
+
+    El análisis incluye datos sobre géneros, idiomas, popularidad, calificaciones y fechas de estreno,
+    permitiendo identificar tendencias y patrones en la industria cinematográfica global.
     """)
+
+    st.divider()
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("🎬 Total películas", "9,999")
+    col2.metric("🌍 Idiomas", "81")
+    col3.metric("📅 Años cubiertos", "2020-2025")
+    col4.metric("⭐ Calificación promedio", "5.8")
+
+    st.divider()
+
     st.info("Usá el menú de la izquierda para navegar entre las secciones.")
 
 elif seccion == "EDA":
     st.header("Análisis Exploratorio de Datos")
+    st.write("Exploración estadística del dataset TMDB 2020-2025. Aquí se presentan las métricas descriptivas, distribuciones y patrones principales encontrados en los datos.")
+    st.divider()
     cargador = CargadorDatos(ruta)
     df = cargador.cargar()
     procesador = ProcesadorEda(df)
@@ -68,11 +88,12 @@ elif seccion == "EDA":
     st.plotly_chart(fig_idiomas)
     st.info("El inglés domina con el 55% de la producción mundial. Francia y Japón ocupan el segundo y tercer lugar, reflejando su fuerte industria cinematográfica.")
 
+
     st.subheader("Top 10 películas más populares")
-    st.dataframe(procesador.top_peliculas_populares())
+    st.dataframe(procesador.top_peliculas_populares(), use_container_width=True, hide_index=True)
 
     st.subheader("Top 10 películas mejor calificadas")
-    st.dataframe(procesador.top_peliculas_calificadas())
+    st.dataframe(procesador.top_peliculas_calificadas(), use_container_width=True, hide_index=True)
 
     st.subheader("Promedio de calificación por género")
     promedio = procesador.promedio_calificacion_por_genero().reset_index()
@@ -89,6 +110,8 @@ elif seccion == "Visualizaciones":
     from collections import Counter
 
     st.header("Visualizaciones")
+    st.write("Gráficas interactivas que cuentan la historia del cine mundial entre 2020 y 2025. Podés filtrar por año usando el selector.")
+    st.divider()
 
     cargador = CargadorDatos(ruta)
     df = cargador.cargar()
