@@ -40,7 +40,49 @@ elif seccion == "EDA":
     st.subheader("Resumen descriptivo")
     st.dataframe(procesador.resumen_descriptivo())
     st.subheader("Películas por año")
-    st.dataframe(procesador.peliculas_por_anio())
+    por_anio = procesador.peliculas_por_anio().reset_index()
+    fig_anio = px.bar(por_anio, x="anio_estreno", y="id",
+                      title="Películas producidas por año",
+                      color_discrete_sequence=["steelblue"])
+    fig_anio.update_layout(xaxis_title="Año", yaxis_title="Número de películas")
+    st.plotly_chart(fig_anio)
+    st.info("La producción se mantiene estable entre 1,400 y 1,900 películas por año. 2022 fue el pico máximo y 2020 el más bajo, probablemente por el impacto del COVID-19.")
+
+    st.subheader("Top 10 géneros más comunes")
+    generos = procesador.generos_mas_comunes().reset_index()
+    generos.columns = ["genero", "cantidad"]
+    fig_generos = px.bar(generos, x="cantidad", y="genero", orientation="h",
+                         title="Top 10 géneros más comunes",
+                         color_discrete_sequence=["steelblue"])
+    fig_generos.update_layout(xaxis_title="Número de películas", yaxis_title="Género")
+    st.plotly_chart(fig_generos)
+    st.info("Drama es el género más producido con 4,100 películas, casi el doble que Comedia. Una película puede tener varios géneros, por eso los números superan el total de películas.")
+
+    st.subheader("Top 10 idiomas más comunes")
+    idiomas = procesador.idiomas_mas_comunes().reset_index()
+    idiomas.columns = ["idioma", "cantidad"]
+    fig_idiomas = px.bar(idiomas, x="cantidad", y="idioma", orientation="h",
+                         title="Top 10 idiomas más comunes",
+                         color_discrete_sequence=["steelblue"])
+    fig_idiomas.update_layout(xaxis_title="Número de películas", yaxis_title="Idioma")
+    st.plotly_chart(fig_idiomas)
+    st.info("El inglés domina con el 55% de la producción mundial. Francia y Japón ocupan el segundo y tercer lugar, reflejando su fuerte industria cinematográfica.")
+
+    st.subheader("Top 10 películas más populares")
+    st.dataframe(procesador.top_peliculas_populares())
+
+    st.subheader("Top 10 películas mejor calificadas")
+    st.dataframe(procesador.top_peliculas_calificadas())
+
+    st.subheader("Promedio de calificación por género")
+    promedio = procesador.promedio_calificacion_por_genero().reset_index()
+    promedio.columns = ["genero", "calificacion"]
+    fig_promedio = px.bar(promedio, x="calificacion", y="genero", orientation="h",
+                          title="Promedio de calificación por género",
+                          color_discrete_sequence=["steelblue"])
+    fig_promedio.update_layout(xaxis_title="Calificación promedio", yaxis_title="Género")
+    st.plotly_chart(fig_promedio)
+    st.info("Animación y Documental son los géneros mejor calificados con 7.25 y 7.23 respectivamente. Terror, a pesar de ser el cuarto género más producido, es el peor calificado con 6.10.")
 
 elif seccion == "Visualizaciones":
 
@@ -72,6 +114,7 @@ elif seccion == "Visualizaciones":
     fig1.update_layout(xaxis_title="Calificación promedio",
                        yaxis_title="Número de películas")
     st.plotly_chart(fig1)
+    st.info("La mayoría de las películas se concentran entre 6 y 7.5 de calificación, lo que indica un estándar de calidad medio-alto en la plataforma. Las calificaciones extremas (muy bajas o perfectas) son poco frecuentes.")
 
     # Gráfico 2 - Barras por año
     st.subheader("¿Cuántas películas se produjeron por año?")
@@ -81,6 +124,7 @@ elif seccion == "Visualizaciones":
                   color_discrete_sequence=["steelblue"])
     fig2.update_layout(xaxis_title="Año", yaxis_title="Número de películas")
     st.plotly_chart(fig2)
+    st.info("2022 fue el año con mayor producción cinematográfica con 1,895 películas. 2020 tuvo menos producciones posiblemente por el impacto del COVID-19 en la industria del cine.")
 
     # Gráfico 3 - Scatter
     st.subheader("¿Las películas más populares son las mejor calificadas?")
@@ -90,6 +134,7 @@ elif seccion == "Visualizaciones":
                       color_discrete_sequence=["steelblue"])
     fig3.update_layout(xaxis_title="Popularidad", yaxis_title="Calificación promedio")
     st.plotly_chart(fig3)
+    st.info("No existe una correlación clara entre popularidad y calificación. Una película puede ser muy popular pero tener calificación media, como se ve con los outliers en el eje de popularidad. Esto indica que popularidad y calidad son métricas independientes.")
 
     # Gráfico 4 - Top géneros
     st.subheader("¿Qué géneros dominan el cine global?")
@@ -102,4 +147,16 @@ elif seccion == "Visualizaciones":
                   title="Top 10 géneros TMDB 2020-2025",
                   color_discrete_sequence=["steelblue"])
     st.plotly_chart(fig4)
+    st.info("Drama domina ampliamente la producción cinematográfica mundial. Los géneros de entretenimiento masivo como Comedia, Thriller y Terror ocupan los siguientes puestos, reflejando las preferencias del público global.")
+
+    # Gráfico 5 - Heatmap correlación
+    st.subheader("¿Qué variables están más relacionadas?")
+    import seaborn as sns
+
+    columnas = ["popularity", "vote_average", "vote_count"]
+    correlacion = df_limpio[columnas].corr()
+    fig5, ax = plt.subplots(figsize=(7, 5))
+    sns.heatmap(correlacion, annot=True, cmap="Blues", fmt=".2f", linewidths=0.5, ax=ax)
+    st.pyplot(fig5)
+    st.info("Las variables tienen baja correlación entre sí, siendo la más alta entre vote_average y vote_count (0.16). Esto confirma que popularidad, calificación y número de votos son métricas independientes que miden aspectos distintos de una película.")
 
