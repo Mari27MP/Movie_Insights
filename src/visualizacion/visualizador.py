@@ -159,4 +159,7 @@ if __name__ == "__main__":
     viz.scatter_popularidad_rating()
     viz.heatmap_correlacion()
     viz.barras_top_generos()
+    viz.barras_top_peliculas_populares()
+    viz.barras_promedio_por_genero()
+    viz.barras_top_idiomas()
 
