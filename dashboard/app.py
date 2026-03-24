@@ -14,7 +14,7 @@ from visualizacion.visualizador import Visualizador
 st.title("TMDB Movie Insights 2020-2025")
 st.markdown("### Análisis Exploratorio de Datos del cine mundial 2020-2025")
 st.markdown("**Proyecto II** — BD-143 Programación II | I Cuatrimestre 2026 | CUC")
-st.markdown("**Estudiantes:** Mariana Pérez & Claret Rodríguez")
+st.markdown("**Estudiantes:** Mariana Méndez & Claret Rodríguez")
 st.divider()
 
 # Cargar datos
@@ -23,7 +23,7 @@ st.divider()
 ruta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "raw", "tmdb_2020_to_2025.csv")
 
 st.sidebar.title("Navegación")
-seccion = st.sidebar.radio("Ir a:", ["Inicio", "EDA", "Visualizaciones"])
+seccion = st.sidebar.radio("Ir a:", ["Inicio", "Visualizaciones"])
 
 if seccion == "Inicio":
     st.header("Sobre el proyecto")
@@ -48,66 +48,6 @@ if seccion == "Inicio":
 
     st.info("Usá el menú de la izquierda para navegar entre las secciones.")
 
-elif seccion == "EDA":
-    st.header("Análisis Exploratorio de Datos")
-    st.write(
-        "Exploración estadística del dataset TMDB 2020-2025. Aquí se presentan las métricas descriptivas, distribuciones y patrones principales encontrados en los datos.")
-    st.divider()
-    cargador = CargadorDatos(ruta)
-    df = cargador.cargar()
-    procesador = ProcesadorEda(df)
-    df_limpio = procesador.limpieza_datos()
-    st.subheader("Resumen descriptivo")
-    st.dataframe(procesador.resumen_descriptivo())
-    st.subheader("Películas por año")
-    por_anio = procesador.peliculas_por_anio().reset_index()
-    fig_anio = px.bar(por_anio, x="anio_estreno", y="id",
-                      title="Películas producidas por año",
-                      color_discrete_sequence=["steelblue"])
-    fig_anio.update_layout(xaxis_title="Año", yaxis_title="Número de películas")
-    st.plotly_chart(fig_anio)
-    st.info(
-        "La producción se mantiene estable entre 1,400 y 1,900 películas por año. 2022 fue el pico máximo y 2020 el más bajo, probablemente por el impacto del COVID-19.")
-
-    st.subheader("Top 10 géneros más comunes")
-    generos = procesador.generos_mas_comunes().reset_index()
-    generos.columns = ["genero", "cantidad"]
-    fig_generos = px.bar(generos, x="cantidad", y="genero", orientation="h",
-                         title="Top 10 géneros más comunes",
-                         color_discrete_sequence=["steelblue"])
-    fig_generos.update_layout(xaxis_title="Número de películas", yaxis_title="Género")
-    st.plotly_chart(fig_generos)
-    st.info(
-        "Drama es el género más producido con 4,100 películas, casi el doble que Comedia. Una película puede tener varios géneros, por eso los números superan el total de películas.")
-
-    st.subheader("Top 10 idiomas más comunes")
-    idiomas = procesador.idiomas_mas_comunes().reset_index()
-    idiomas.columns = ["idioma", "cantidad"]
-    fig_idiomas = px.bar(idiomas, x="cantidad", y="idioma", orientation="h",
-                         title="Top 10 idiomas más comunes",
-                         color_discrete_sequence=["steelblue"])
-    fig_idiomas.update_layout(xaxis_title="Número de películas", yaxis_title="Idioma")
-    st.plotly_chart(fig_idiomas)
-    st.info(
-        "El inglés domina con el 55% de la producción mundial. Francia y Japón ocupan el segundo y tercer lugar, reflejando su fuerte industria cinematográfica.")
-
-    st.subheader("Top 10 películas más populares")
-    st.dataframe(procesador.top_peliculas_populares(), use_container_width=True, hide_index=True)
-
-    st.subheader("Top 10 películas mejor calificadas")
-    st.dataframe(procesador.top_peliculas_calificadas(), use_container_width=True, hide_index=True)
-
-    st.subheader("Promedio de calificación por género")
-    promedio = procesador.promedio_calificacion_por_genero().reset_index()
-    promedio.columns = ["genero", "calificacion"]
-    fig_promedio = px.bar(promedio, x="calificacion", y="genero", orientation="h",
-                          title="Promedio de calificación por género",
-                          color_discrete_sequence=["steelblue"])
-    fig_promedio.update_layout(xaxis_title="Calificación promedio", yaxis_title="Género")
-    st.plotly_chart(fig_promedio)
-    st.info(
-        "Animación y Documental son los géneros mejor calificados con 7.25 y 7.23 respectivamente. Terror, a pesar de ser el cuarto género más producido, es el peor calificado con 6.10.")
-
 elif seccion == "Visualizaciones":
 
     from collections import Counter
@@ -129,6 +69,17 @@ elif seccion == "Visualizaciones":
 
     if anio_seleccionado != "Todos":
         df_limpio = df_limpio[df_limpio["anio_estreno"] == int(anio_seleccionado)]
+
+    # Selector de género
+    todos_generos = []
+    for lista in df_limpio["genre_ids"]:
+        todos_generos.extend(lista)
+    generos_unicos = sorted(set(todos_generos))
+    generos_opciones = ["Todos"] + generos_unicos
+    genero_seleccionado = st.selectbox("Filtrar por género:", generos_opciones)
+
+    if genero_seleccionado != "Todos":
+        df_limpio = df_limpio[df_limpio["genre_ids"].apply(lambda x: genero_seleccionado in x)]
 
     # Gráfico 1 - Histograma
     st.subheader("¿Cómo califican los usuarios las películas?")
