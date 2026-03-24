@@ -54,6 +54,33 @@ class ProcesadorEda:
         # Rellenar nulos en overview
         self.df["overview"] = self.df["overview"].fillna("Sin descripcion")
 
+        idiomas_nombres = {
+            "en": "Inglés", "fr": "Francés", "ja": "Japonés", "es": "Español",
+            "it": "Italiano", "tl": "Filipino", "de": "Alemán", "ko": "Coreano",
+            "zh": "Chino", "hi": "Hindi", "id": "Indonesio", "pt": "Portugués",
+            "pl": "Polaco", "sv": "Sueco", "nl": "Holandés", "te": "Telugu",
+            "cs": "Checo", "ta": "Tamil", "tr": "Turco", "ru": "Ruso",
+            "no": "Noruego", "th": "Tailandés", "ml": "Malayálam", "fi": "Finlandés",
+            "hu": "Húngaro", "da": "Danés", "cn": "Cantonés", "ms": "Malayo",
+            "et": "Estonio", "bn": "Bengalí", "ar": "Árabe", "kn": "Canarés",
+            "ro": "Rumano", "sr": "Serbio", "hr": "Croata", "el": "Griego",
+            "pa": "Punjabi", "mr": "Maratí", "ca": "Catalán", "sk": "Eslovaco",
+            "is": "Islandés", "fa": "Persa", "af": "Afrikáans", "eu": "Euskera",
+            "lt": "Lituano", "sl": "Esloveno", "lv": "Letón", "uk": "Ucraniano",
+            "xx": "Sin idioma", "he": "Hebreo", "ga": "Irlandés", "bs": "Bosnio",
+            "ur": "Urdu", "sq": "Albanés", "bg": "Búlgaro", "gu": "Gujarati",
+            "jv": "Javanés", "gl": "Gallego", "si": "Cingalés", "mk": "Macedonio",
+            "ht": "Criollo haitiano", "se": "Sami del norte", "az": "Azerbaiyano",
+            "mn": "Mongol", "kl": "Groenlandés", "mi": "Maorí", "om": "Oromo",
+            "lb": "Luxemburgués", "su": "Sundanés", "rw": "Kinyarwanda",
+            "kw": "Córnico", "hy": "Armenio", "sw": "Suajili", "ku": "Kurdo",
+            "ig": "Igbo", "cr": "Cree", "ps": "Pastún", "lg": "Luganda",
+            "gd": "Gaélico escocés", "xh": "Xhosa", "so": "Somalí"
+        }
+        self.df["original_language"] = self.df["original_language"].map(
+            lambda x: idiomas_nombres.get(x, x)
+        )
+
         print("Limpieza de datos completada")
         print("Columnas actuales:", list(self.df.columns))
 
@@ -113,6 +140,8 @@ class ProcesadorEda:
         print("Top 10 géneros más comunes:")
         print(generos)
         return generos
+
+
 
     def idiomas_mas_comunes(self):
         idiomas = self.df["original_language"].value_counts().head(10)
