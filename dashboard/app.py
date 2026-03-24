@@ -136,8 +136,12 @@ elif seccion == "Visualizaciones":
     fig1 = px.histogram(datos, x="vote_average", nbins=30,
                         title="Distribución de calificaciones TMDB 2020-2025",
                         color_discrete_sequence=["steelblue"])
-    fig1.update_layout(xaxis_title="Calificación promedio",
-                       yaxis_title="Número de películas")
+    fig1.update_layout(
+        xaxis_title="Calificación promedio",
+        yaxis_title="Número de películas",
+        xaxis=dict(showgrid=False),
+        yaxis=dict(showgrid=False)
+    )
     st.plotly_chart(fig1)
     st.info(
         "La mayoría de las películas se concentran entre 6 y 7.5 de calificación, lo que indica un estándar de calidad medio-alto en la plataforma. Las calificaciones extremas (muy bajas o perfectas) son poco frecuentes.")
@@ -148,7 +152,12 @@ elif seccion == "Visualizaciones":
     fig2 = px.bar(por_anio, x="anio_estreno", y="id",
                   title="Películas producidas por año TMDB 2020-2025",
                   color_discrete_sequence=["steelblue"])
-    fig2.update_layout(xaxis_title="Año", yaxis_title="Número de películas")
+    fig2.update_layout(
+        xaxis_title="Año",
+        yaxis_title="Número de películas",
+        xaxis=dict(showgrid=False),
+        yaxis=dict(showgrid=False)
+    )
     st.plotly_chart(fig2)
     st.info(
         "2022 fue el año con mayor producción cinematográfica con 1,895 películas. 2020 tuvo menos producciones posiblemente por el impacto del COVID-19 en la industria del cine.")
