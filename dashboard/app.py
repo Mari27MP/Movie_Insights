@@ -224,14 +224,14 @@ elif seccion == "Visualizaciones":
     st.info(
         "Animación y Documental son los géneros mejor calificados. Terror, a pesar de ser muy producido, tiene las calificaciones más bajas.")
 
-# Gráfico 8 - Top idiomas
-st.subheader("¿En qué idiomas se producen más películas?")
-top_idiomas = df_limpio["original_language"].value_counts().head(10).reset_index()
-top_idiomas.columns = ["idioma", "cantidad"]
-fig8 = px.bar(top_idiomas, x="cantidad", y="idioma", orientation="h",
-              title="Top 10 idiomas más comunes TMDB 2020-2025",
-              color_discrete_sequence=["steelblue"])
-fig8.update_layout(xaxis_title="Número de películas", yaxis_title="Idioma", yaxis=dict(autorange="reversed"))
-st.plotly_chart(fig8)
-st.info(
-    "El inglés domina ampliamente con el 55% de la producción mundial. Francia y Japón ocupan el segundo y tercer lugar.")
+    # Gráfico 8 - Top idiomas
+    st.subheader("¿En qué idiomas se producen más películas?")
+    top_idiomas = df_limpio["original_language"].value_counts().head(10).reset_index()
+    top_idiomas.columns = ["idioma", "cantidad"]
+    fig8 = px.bar(top_idiomas, x="cantidad", y="idioma", orientation="h",
+                  title="Top 10 idiomas más comunes TMDB 2020-2025",
+                  color_discrete_sequence=["steelblue"])
+    fig8.update_layout(xaxis_title="Número de películas", yaxis_title="Idioma", yaxis=dict(autorange="reversed"))
+    st.plotly_chart(fig8)
+    st.info(
+        "El inglés domina ampliamente con el 55% de la producción mundial. Francia y Japón ocupan el segundo y tercer lugar.")
