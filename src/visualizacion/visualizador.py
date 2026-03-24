@@ -18,6 +18,9 @@ class Visualizador:
         plt.ylabel("Número de películas")
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
+        plt.figtext(0.5, 0.01,
+                    "La mayoría de películas se concentran entre 6 y 7 de calificación. Las notas perfectas (10) y muy bajas son poco frecuentes.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def barras_por_anio(self):
@@ -30,6 +33,9 @@ class Visualizador:
         plt.ylabel("Número de películas")
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
+        plt.figtext(0.5, 0.01,
+                    "2022 fue el año más productivo con ~1,875 películas. 2020 tuvo la menor producción, posiblemente por el impacto del COVID-19.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def scatter_popularidad_rating(self):
@@ -41,6 +47,9 @@ class Visualizador:
         plt.ylabel("Calificación promedio")
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
+        plt.figtext(0.5, 0.01,
+                    "No hay correlación entre popularidad y calificación. El outlier con 951 puntos de popularidad tiene calificación media de 7.9.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def heatmap_correlacion(self):
@@ -54,6 +63,9 @@ class Visualizador:
         plt.title("¿Qué variables están más relacionadas?\n Matriz de correlación TMDB 2020-2025")
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
+        plt.figtext(0.5, 0.01,
+                    "Las tres variables son casi independientes. La correlación más alta es entre vote_average y vote_count (0.20).",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def barras_top_generos(self):
@@ -72,6 +84,9 @@ class Visualizador:
         plt.xlabel("Número de películas")
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
+        plt.figtext(0.5, 0.01,
+                    "Drama domina con ~4,100 películas, casi el doble que Comedia. Fantasía y Ciencia ficción son los menos frecuentes del top 10.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def barras_top_peliculas_populares(self):
@@ -85,6 +100,9 @@ class Visualizador:
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
         plt.tight_layout()
+        plt.figtext(0.5, 0.01,
+                    "Frankenstein domina con 951 puntos, muy por encima del resto. Playdate y Predator: Badlands ocupan el segundo y tercer lugar.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def barras_promedio_por_genero(self):
@@ -99,6 +117,9 @@ class Visualizador:
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
         plt.tight_layout()
+        plt.figtext(0.5, 0.01,
+                    "Animación y Documental lideran con ~7.3 de calificación. Terror es el peor calificado con 6.1, a pesar de ser muy producido.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
     def barras_top_idiomas(self):
@@ -112,6 +133,9 @@ class Visualizador:
         plt.gca().set_facecolor("white")
         plt.gcf().set_facecolor("white")
         plt.tight_layout()
+        plt.figtext(0.5, 0.01,
+                    "El inglés domina masivamente con ~5,500 películas. Francés y japonés ocupan el segundo y tercer lugar con menos de 600 cada uno.",
+                    ha="center", fontsize=9, style="italic")
         plt.show()
 
 
