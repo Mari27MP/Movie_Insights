@@ -85,6 +85,7 @@ python src/main.py
 jupyter notebook
 ```
 
+
 ### 5. Correr el dashboard (opcional)
 ```bash
 streamlit run dashboard/app.py
