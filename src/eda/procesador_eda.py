@@ -107,7 +107,7 @@ class ProcesadorEda:
 
     def matriz_correlacion(self):
         columnas = ["popularity", "vote_average", "vote_count", "anio_estreno"]
-        datos = self.df[self.df["vote_count"] > 0][columnas]
+        datos = self.df[self.df["vote_count"] > 1][columnas]
         correlacion = datos.corr()
         print("Matriz de correlacion:")
         print(correlacion)
